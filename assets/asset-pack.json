@@ -100,6 +100,41 @@
                 "url": "assets/tutorial01.png",
                 "type": "image",
                 "key": "tutorial01"
+            },
+            {
+                "url": "images/game_help_bg.png",
+                "type": "image",
+                "key": "game_help_bg"
+            },
+            {
+                "url": "images/confirm_button.png",
+                "type": "image",
+                "key": "confirm_button"
+            },
+            {
+                "url": "images/bear_purple_figma.png",
+                "type": "image",
+                "key": "bear_purple_figma"
+            },
+            {
+                "url": "images/quokka_yellow_figma.png",
+                "type": "image",
+                "key": "quokka_yellow_figma"
+            },
+            {
+                "url": "images/dog_cyan_figma.png",
+                "type": "image",
+                "key": "dog_cyan_figma"
+            },
+            {
+                "url": "images/level_guide_board.png",
+                "type": "image",
+                "key": "level_guide_board"
+            },
+            {
+                "url": "images/level_banner.png",
+                "type": "image",
+                "key": "level_banner"
             }
         ]
     },

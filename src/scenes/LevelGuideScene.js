@@ -4,16 +4,33 @@ export default class LevelGuideScene extends Phaser.Scene {
     }
 
     preload() {
-        // 피그마에서 가져온 이미지들
-        this.load.image('bear_purple_figma', 'images/bear_purple_figma.png');
-        this.load.image('cat_figma', 'images/cat.png');
-        this.load.image('quokka_yellow_figma', 'images/quokka_yellow_figma.png');
-        this.load.image('dog_cyan_figma', 'images/dog_cyan_figma.png');
-        
-        // 판 이미지와 버튼들
-        this.load.image('level_guide_board', 'images/level_guide_board.png');
-        this.load.image('level_banner', 'images/level_banner.png');
-        this.load.image('confirm_button', 'images/confirm_button.png');
+        // 모든 필요한 이미지들이 이미 Preload 씬에서 asset-pack.json을 통해 로드되었으므로
+        // 여기서는 추가 로딩이 필요하지 않습니다.
+        // 만약 이미지가 로드되지 않았다면 개별적으로 로드
+        if (!this.textures.exists('game_help_bg')) {
+            this.load.image('game_help_bg', 'images/game_help_bg.png');
+        }
+        if (!this.textures.exists('confirm_button')) {
+            this.load.image('confirm_button', 'images/confirm_button.png');
+        }
+        if (!this.textures.exists('bear_purple_figma')) {
+            this.load.image('bear_purple_figma', 'images/bear_purple_figma.png');
+        }
+        if (!this.textures.exists('cat')) {
+            this.load.image('cat', 'images/cat.png');
+        }
+        if (!this.textures.exists('quokka_yellow_figma')) {
+            this.load.image('quokka_yellow_figma', 'images/quokka_yellow_figma.png');
+        }
+        if (!this.textures.exists('dog_cyan_figma')) {
+            this.load.image('dog_cyan_figma', 'images/dog_cyan_figma.png');
+        }
+        if (!this.textures.exists('level_guide_board')) {
+            this.load.image('level_guide_board', 'images/level_guide_board.png');
+        }
+        if (!this.textures.exists('level_banner')) {
+            this.load.image('level_banner', 'images/level_banner.png');
+        }
     }
 
     create(data) {
@@ -26,18 +43,32 @@ export default class LevelGuideScene extends Phaser.Scene {
         // 메인 컨테이너
         const mainContainer = this.add.container(960, 540);
 
-        // 1. 판 이미지 배치 (피그마 크기: 752x725)
-        const board = this.add.image(0, 0, 'level_guide_board');
-        board.setScale(0.495); // 752/1520 = 0.495
+        // 1. 도움말 배경 이미지 사용 (game_help_bg.png)
+        let board;
+        if (this.textures.exists('game_help_bg')) {
+            board = this.add.image(0, 0, 'game_help_bg');
+            // game_help_bg.png 크기에 맞게 조정
+            board.setDisplaySize(800, 600); // 적절한 크기로 조정
+        } else if (this.textures.exists('level_guide_board')) {
+            // 대체 이미지 사용
+            board = this.add.image(0, 0, 'level_guide_board');
+            board.setScale(0.495);
+        } else {
+            // 기본 사각형 배경
+            board = this.add.rectangle(0, 0, 800, 600, 0xf0f0f0);
+            board.setStrokeStyle(4, 0x666666);
+        }
         mainContainer.add(board);
 
         // 2. 레벨 배너 (판 위쪽에 겹치게)
-        const levelBanner = this.add.image(0, -340, 'level_banner');
-        levelBanner.setScale(0.493);
-        mainContainer.add(levelBanner);
+        if (this.textures.exists('level_banner')) {
+            const levelBanner = this.add.image(0, -250, 'level_banner');
+            levelBanner.setScale(0.493);
+            mainContainer.add(levelBanner);
+        }
 
-        // 레벨 텍스트 (배너 위에)
-        const levelText = this.add.text(0, -340, `LEVEL ${this.currentLevel.toString().padStart(2, '0')}`, {
+        // 레벨 텍스트 (배너 위에 또는 상단에)
+        const levelText = this.add.text(0, -250, `LEVEL ${this.currentLevel.toString().padStart(2, '0')}`, {
             fontSize: '60px',
             fontFamily: 'Arial Black',
             color: '#FEF4BF',
@@ -47,23 +78,36 @@ export default class LevelGuideScene extends Phaser.Scene {
         levelText.setOrigin(0.5);
         mainContainer.add(levelText);
 
-        // 3. X 버튼 (투명 히트 영역)
-        const xButton = this.add.circle(340, -340, 48, 0x000000, 0);
+        // 3. X 버튼 (투명 히트 영역) - 우상단
+        const xButton = this.add.circle(350, -250, 48, 0xff0000, 0.1); // 약간 보이게 설정
         xButton.setInteractive({ useHandCursor: true });
+        
+        // X 표시 추가
+        const xGraphics = this.add.graphics();
+        xGraphics.lineStyle(6, 0x666666, 1);
+        xGraphics.beginPath();
+        xGraphics.moveTo(330, -270);
+        xGraphics.lineTo(370, -230);
+        xGraphics.moveTo(370, -270);
+        xGraphics.lineTo(330, -230);
+        xGraphics.strokePath();
+        mainContainer.add(xGraphics);
         
         xButton.on('pointerup', () => {
             this.scene.stop();
-            this.scene.get('Match3Game').startLevel();
+            if (this.scene.get('Match3Game')) {
+                this.scene.get('Match3Game').startLevel();
+            }
         });
         
         mainContainer.add(xButton);
 
         // 4. 미션 아이템들 (회색 박스 내부)
-        const missionY = -120;
+        const missionY = -80;
         const items = this.currentLevel === 1 ? 
             [
                 { x: -100, image: 'bear_purple_figma', count: 6 },
-                { x: 100, image: 'cat_figma', count: 9 }
+                { x: 100, image: 'cat', count: 9 }
             ] :
             [
                 { x: -180, image: 'bear_purple_figma', count: 6 },
@@ -84,6 +128,18 @@ export default class LevelGuideScene extends Phaser.Scene {
                 const animal = this.add.image(item.x, missionY, item.image);
                 animal.setDisplaySize(110, 112);
                 mainContainer.add(animal);
+            } else {
+                // 이미지가 없으면 임시 사각형
+                const tempRect = this.add.rectangle(item.x, missionY, 110, 112, 0xcccccc);
+                tempRect.setStrokeStyle(2, 0x666666);
+                mainContainer.add(tempRect);
+                
+                const tempText = this.add.text(item.x, missionY, item.image, {
+                    fontSize: '12px',
+                    color: '#333333'
+                });
+                tempText.setOrigin(0.5);
+                mainContainer.add(tempText);
             }
             
             // 숫자 (오른쪽 하단)
@@ -119,9 +175,25 @@ export default class LevelGuideScene extends Phaser.Scene {
         descText.setOrigin(0.5);
         mainContainer.add(descText);
 
-        // 6. 확인 완료 버튼 (텍스트 없이 버튼만)
-        const confirmButton = this.add.image(0, 210, 'confirm_button');
-        confirmButton.setScale(0.204);
+        // 6. 확인 완료 버튼 (confirm_button.png 사용)
+        let confirmButton;
+        if (this.textures.exists('confirm_button')) {
+            confirmButton = this.add.image(0, 180, 'confirm_button');
+            confirmButton.setDisplaySize(200, 60); // 적절한 크기로 조정
+        } else {
+            // 대체 버튼
+            confirmButton = this.add.rectangle(0, 180, 200, 60, 0x4CAF50);
+            confirmButton.setStrokeStyle(3, 0x2E7D32);
+            
+            const buttonText = this.add.text(0, 180, 'CONFIRM', {
+                fontSize: '24px',
+                fontFamily: 'Arial Black',
+                color: '#FFFFFF'
+            });
+            buttonText.setOrigin(0.5);
+            mainContainer.add(buttonText);
+        }
+        
         confirmButton.setInteractive({ useHandCursor: true });
         mainContainer.add(confirmButton);
         
@@ -133,7 +205,18 @@ export default class LevelGuideScene extends Phaser.Scene {
         confirmButton.on('pointerup', () => {
             confirmButton.y -= 5;
             this.scene.stop();
-            this.scene.get('Match3Game').startLevel();
+            if (this.scene.get('Match3Game')) {
+                this.scene.get('Match3Game').startLevel();
+            }
+        });
+
+        // 호버 효과
+        confirmButton.on('pointerover', () => {
+            confirmButton.setTint(0xdddddd);
+        });
+
+        confirmButton.on('pointerout', () => {
+            confirmButton.clearTint();
         });
 
         // 등장 애니메이션
