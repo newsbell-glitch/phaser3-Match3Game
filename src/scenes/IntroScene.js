@@ -89,9 +89,21 @@ class IntroScene extends Phaser.Scene {
         this.setupButtonEffects(rankButton, buttonY);
         this.setupButtonEffects(startButton, buttonY);
 
-        // Start 버튼 클릭 이벤트
+        // Start 버튼 클릭 이벤트 - Match3Game 씬으로 직접 이동
         startButton.on('pointerup', () => {
-            this.scene.start('LevelGuideScene', { level: 1 });
+            // 페이드 아웃 효과
+            this.cameras.main.fadeOut(500, 0, 0, 0);
+            this.cameras.main.once('camerafadeoutcomplete', () => {
+                this.scene.start('Match3Game', { level: 1 });
+            });
+        });
+
+        // Rank 버튼 클릭 이벤트 (임시로 레벨 2 시작)
+        rankButton.on('pointerup', () => {
+            this.cameras.main.fadeOut(500, 0, 0, 0);
+            this.cameras.main.once('camerafadeoutcomplete', () => {
+                this.scene.start('Match3Game', { level: 2 });
+            });
         });
 
         // 애니메이션 설정
