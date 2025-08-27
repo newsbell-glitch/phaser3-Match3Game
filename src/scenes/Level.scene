@@ -1,0 +1,120 @@
+{
+    "id": "01aefa93-6044-4159-8358-7e91310aa05f",
+    "sceneType": "SCENE",
+    "settings": {
+        "preloadPackFiles": [],
+        "createMethodName": "editorCreate",
+        "sceneKey": "Level",
+        "borderWidth": 1280,
+        "borderHeight": 720
+    },
+    "displayList": [
+        {
+            "type": "Text",
+            "id": "b2b3dbd5-2106-41fa-8a04-9b511e3401a9",
+            "label": "welcome",
+            "useGameObjectName": true,
+            "x": 640,
+            "y": 533,
+            "originX": 0.5,
+            "originY": 0.5,
+            "text": "*** Match 3 Game ***\n\nClick to start the Game!!!",
+            "align": "center",
+            "fontFamily": "Arial",
+            "fontSize": "30px",
+            "list": [
+                {
+                    "prefabId": "7028a0e2-cd14-44b7-b2a4-68dac16ece00",
+                    "id": "78e2cecc-8445-45e8-bb7d-567f39c97d9c",
+                    "label": "onAwakeScript_1",
+                    "list": [
+                        {
+                            "prefabId": "978fd4e0-a722-4061-a6d9-86748db8a38a",
+                            "id": "9e9ce046-41b1-40fd-8c59-620a4df7fcaf",
+                            "unlock": [
+                                "fadeDirection"
+                            ],
+                            "label": "fadeActionScript",
+                            "fadeDirection": "FadeIn",
+                            "components": [
+                                "DurationConfigComp"
+                            ],
+                            "DurationConfigComp.duration": 1500
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "66aa2346-552c-4891-a20d-b07566a4016f",
+            "label": "imgGroup",
+            "useGameObjectName": true,
+            "x": 348,
+            "y": 8,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "bd35a239-47e7-4cf2-9dab-0e73a448a189",
+                    "label": "pic_0",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "pic6"
+                    },
+                    "x": 149,
+                    "y": 281
+                },
+                {
+                    "type": "Image",
+                    "id": "e94a98f1-72f7-4209-b766-7fbb5218766e",
+                    "label": "pic_1",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "pic6"
+                    },
+                    "x": 296,
+                    "y": 281
+                },
+                {
+                    "type": "Image",
+                    "id": "dbab97df-ce9f-451a-951e-b4450b45681b",
+                    "label": "pic_2",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "pic6"
+                    },
+                    "x": 445,
+                    "y": 281
+                },
+                {
+                    "type": "Image",
+                    "id": "8e1c8c04-57cf-423c-b0f0-d9527b7299f4",
+                    "label": "removeEff0",
+                    "texture": {
+                        "key": "removeEff",
+                        "frame": 0
+                    },
+                    "x": 590,
+                    "y": 280
+                },
+                {
+                    "type": "Image",
+                    "id": "e820a1f2-cc83-4b02-b105-9be156465abe",
+                    "label": "removeEff1",
+                    "texture": {
+                        "key": "removeEff",
+                        "frame": 1
+                    },
+                    "y": 279
+                }
+            ]
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    }
+}

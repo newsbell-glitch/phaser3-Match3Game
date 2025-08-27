@@ -1,0 +1,113 @@
+{
+    "section1": {
+        "files": [
+            {
+                "url": "assets/dino.png",
+                "key": "dino",
+                "type": "image"
+            },
+            {
+                "url": "assets/levelpopup.png",
+                "type": "image",
+                "key": "levelpopup"
+            },
+            {
+                "url": "assets/modalWin.png",
+                "type": "image",
+                "key": "modalWin"
+            },
+            {
+                "url": "assets/notepan.png",
+                "type": "image",
+                "key": "notepan"
+            },
+            {
+                "url": "assets/pic1.png",
+                "type": "image",
+                "key": "pic1"
+            },
+            {
+                "url": "assets/pic2.png",
+                "type": "image",
+                "key": "pic2"
+            },
+            {
+                "url": "assets/pic3.png",
+                "type": "image",
+                "key": "pic3"
+            },
+            {
+                "url": "assets/pic4.png",
+                "type": "image",
+                "key": "pic4"
+            },
+            {
+                "url": "assets/pic5.png",
+                "type": "image",
+                "key": "pic5"
+            },
+            {
+                "url": "assets/pic6.png",
+                "type": "image",
+                "key": "pic6"
+            },
+            {
+                "url": "images/bear.png",
+                "type": "image",
+                "key": "bear_img"
+            },
+            {
+                "url": "images/cat.png",
+                "type": "image",
+                "key": "cat_img"
+            },
+            {
+                "url": "images/dog.png",
+                "type": "image",
+                "key": "dog_img"
+            },
+            {
+                "url": "images/rabbit.png",
+                "type": "image",
+                "key": "rabbit_img"
+            },
+            {
+                "url": "images/raccoon.png",
+                "type": "image",
+                "key": "raccoon_img"
+            },
+            {
+                "url": "images/quokka.png",
+                "type": "image",
+                "key": "quokka_img"
+            },
+            {
+                "url": "assets/progress_bar.png",
+                "type": "image",
+                "key": "progress_bar"
+            },
+            {
+                "url": "assets/progress_bar_bg.png",
+                "type": "image",
+                "key": "progress_bar_bg"
+            },
+            {
+                "url": "assets/tutorial_button.png",
+                "type": "image",
+                "key": "tutorial_button"
+            },
+            {
+                "url": "assets/tutorial01.png",
+                "type": "image",
+                "key": "tutorial01"
+            }
+        ]
+    },
+    "meta": {
+        "app": "Phaser Editor 2D - Asset Pack Editor",
+        "contentType": "phasereditor2d.pack.core.AssetContentType",
+        "url": "https://phasereditor2d.com",
+        "version": 2,
+        "showAllFilesInBlocks": false
+    }
+}

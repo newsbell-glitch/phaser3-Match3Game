@@ -1,0 +1,83 @@
+🎮 Phaser 3 Match-3 게임 Figma 디자인 적용 프로젝트 요약
+📁 프로젝트 정보
+
+경로: D:\jong\study\phaser\match3_v2
+프레임워크: Phaser 3
+게임 유형: Match-3 퍼즐 게임
+디자인 소스: Figma (URL: https://www.figma.com/design/VttqAVtUQmIF3q49Gfu4Ne/match3GameMain?node-id=0-1&t=D7sb5Fb56DvNiaxW-1)
+
+🎯 현재 진행 상황
+1. 인트로 화면 (IntroScene) ✅ 완료
+
+Figma 디자인과 동일하게 구현 완료
+배경 이미지: assets/full_background.png (파란 하늘, 산, 오렌지 길, 꽃밭)
+JELLY POP 로고: 중앙 배치, 크기 682x511
+별 장식들: 좌우 애니메이션 적용
+RANK/START 버튼: 오렌지 길 위 배치 (Y: 860)
+모든 애니메이션 정상 작동
+
+2. 레벨 안내창 (LevelGuideScene) ✅ 완료
+
+Figma 디자인대로 완전 재구성
+반투명 배경으로 게임 화면 보이도록 처리
+파란색 그라데이션 박스
+레벨 표시 (갈색-노란색 그라데이션)
+미션 아이템 3개 표시
+확인 완료 버튼 구현
+
+3. 게임 메인 화면 (Match3Game) 🔄 진행 중
+
+Figma 디자인 기반 레이아웃 적용
+좌측: 메뉴, 레벨, 프로그레스바, 미션 패널
+중앙: 8x6 게임 보드 (타일 크기 94px, 간격 46px)
+우측 하단: 옵션 버튼
+동물 이미지 6종 적용 (bear, cat, dog, rabbit, raccoon, quokka)
+
+📦 주요 파일 구조
+match3_v2/
+├── src/
+│   ├── scenes/
+│   │   ├── IntroScene.js (완료)
+│   │   ├── LevelGuideScene.js (완료)
+│   │   ├── Match3Game.js (진행 중)
+│   │   ├── Match3Core.js (게임 로직)
+│   │   ├── Match3UI.js (UI 처리)
+│   │   └── match.js (메인 게임 클래스)
+│   └── main.js
+├── images/
+│   ├── 동물 이미지들 (bear.png, cat.png, etc.)
+│   └── UI 이미지들
+├── assets/
+│   ├── full_background.png
+│   ├── logo.png
+│   ├── button_bg.png
+│   └── 기타 에셋들
+└── index.html
+🔧 현재 설정값
+
+게임 해상도: 1920x1080
+타일 크기: 94px
+타일 간격: 46px
+그리드: 8x6
+시작 위치: X: 630, Y: 155
+
+⚠️ 주의사항
+
+모든 이미지는 images/ 폴더와 assets/ 폴더에 분산 저장됨
+Match3UI.js에 null 체크 추가로 안정성 향상
+Chrome 개발 모드 실행: chrome_dev.bat
+화면 캡처: run_capture.bat
+
+📝 다음 작업 내용
+
+Match3Game 씬의 게임 보드 디자인 완성
+게임 로직과 UI 연동 확인
+애니메이션 효과 추가
+전체적인 게임 플로우 테스트
+
+💡 새 채팅에서 이어가기 위한 핵심 정보
+
+Figma MCP 연결 필수: Figma 디자인 데이터 접근용
+파일 시스템 접근: D:\jong\study\phaser\match3_v2 경로
+현재 목표: Match3Game.js의 게임 화면을 Figma 디자인과 100% 일치시키기
+사용 중인 동물 이미지: bear_img, cat_img, dog_img, rabbit_img, raccoon_img, quokka_img

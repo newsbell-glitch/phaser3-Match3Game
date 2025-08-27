@@ -1,0 +1,583 @@
+{
+    "id": "75b4c3fe-f076-45a1-a65d-d05958fcab07",
+    "sceneType": "SCENE",
+    "settings": {
+        "preloadPackFiles": [],
+        "createMethodName": "editorCreate",
+        "sceneKey": "Match3Game",
+        "borderWidth": 1280,
+        "borderHeight": 720
+    },
+    "displayList": [
+        {
+            "type": "Image",
+            "id": "180c5de8-61c5-46ac-868d-ba685a54ee3d",
+            "label": "pic1",
+            "texture": {
+                "key": "pic1"
+            },
+            "x": 1410,
+            "y": 246
+        },
+        {
+            "type": "Image",
+            "id": "26826df3-1d9e-439d-87ef-26cd5db263aa",
+            "label": "pic2",
+            "texture": {
+                "key": "pic2"
+            },
+            "x": 1575,
+            "y": 408
+        },
+        {
+            "type": "Image",
+            "id": "a9f8dafa-2704-441a-8403-3b194e59e43f",
+            "label": "pic3",
+            "texture": {
+                "key": "pic3"
+            },
+            "x": 1410,
+            "y": 410
+        },
+        {
+            "type": "Image",
+            "id": "a44bfcf9-1ae2-4269-9c91-cf948f294b14",
+            "label": "pic4",
+            "texture": {
+                "key": "pic4"
+            },
+            "x": 1571,
+            "y": 244
+        },
+        {
+            "type": "Image",
+            "id": "6e698533-2950-4598-ba31-dc38c8772569",
+            "label": "pic5",
+            "texture": {
+                "key": "pic5"
+            },
+            "x": 1572,
+            "y": 81
+        },
+        {
+            "type": "Image",
+            "id": "8786381a-1772-4fea-ae9b-276c8c1eba7e",
+            "label": "pic6",
+            "texture": {
+                "key": "pic6"
+            },
+            "x": 1410,
+            "y": 79
+        },
+        {
+            "type": "Text",
+            "id": "c131842b-dba2-422e-bdb2-d91b8bad4e2f",
+            "label": "scoreTitle",
+            "x": 1352,
+            "y": 511,
+            "text": "Score :",
+            "fontFamily": "Arial",
+            "fontSize": "24px",
+            "fontStyle": "bold"
+        },
+        {
+            "type": "Text",
+            "id": "803146a0-8181-467a-a788-60b5374951d0",
+            "label": "Level_txt",
+            "useGameObjectName": true,
+            "x": 171,
+            "y": 51,
+            "text": "** Level 1 **",
+            "fontFamily": "Arial",
+            "fontSize": "48px",
+            "fontStyle": "bold",
+            "color": "#fef791ff"
+        },
+        {
+            "type": "Container",
+            "id": "e97952bb-a928-42da-b0d2-a15472321051",
+            "label": "tileGrp",
+            "useGameObjectName": true,
+            "x": 521,
+            "y": 37,
+            "list": [
+                {
+                    "type": "Glow",
+                    "id": "d8ad0297-f11f-4665-a3c5-916b97c150a5",
+                    "label": "glowFx",
+                    "color": "#fcfea5"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "669f6854-db1b-4eb5-bd04-b3588f1a2b79",
+            "label": "progressGrp",
+            "useGameObjectName": true,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "d21532e9-31de-4393-b44f-641958c0e73a",
+                    "label": "progress_bar_bg",
+                    "texture": {
+                        "key": "progress_bar_bg"
+                    },
+                    "x": 298,
+                    "y": 154
+                },
+                {
+                    "type": "Image",
+                    "id": "5d5e3eff-32e1-49d8-9c41-d3ac2cb337f2",
+                    "label": "progress_bar",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "progress_bar"
+                    },
+                    "x": 171,
+                    "y": 143,
+                    "originX": 0,
+                    "originY": 0
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "af0765ed-6e3e-4ba6-835b-d63ae9355b30",
+            "label": "noticeGrp",
+            "useGameObjectName": true,
+            "list": [
+                {
+                    "type": "Image",
+                    "id": "5242d613-d625-49cc-8bf2-f85974362d46",
+                    "label": "notepan",
+                    "texture": {
+                        "key": "notepan"
+                    },
+                    "x": 297,
+                    "y": 361
+                },
+                {
+                    "type": "Container",
+                    "id": "f59a2856-ab1d-4343-863d-6dfcfc7c475d",
+                    "label": "aimList_3",
+                    "useGameObjectName": true,
+                    "y": 140,
+                    "list": [
+                        {
+                            "type": "Image",
+                            "id": "885ee77b-bbd8-4b5f-9f3c-65f1a8d4c226",
+                            "label": "pic_3",
+                            "useGameObjectName": true,
+                            "texture": {
+                                "key": "pic1"
+                            },
+                            "x": 255,
+                            "y": 293,
+                            "scaleX": 0.4,
+                            "scaleY": 0.4
+                        },
+                        {
+                            "type": "Text",
+                            "id": "b5685f68-f086-4a91-a24c-abebeeefd48c",
+                            "label": "text_3",
+                            "useGameObjectName": true,
+                            "x": 320,
+                            "y": 278,
+                            "text": " / 6",
+                            "fontFamily": "Arial",
+                            "fontSize": "32px",
+                            "fontStyle": "bold",
+                            "color": "#060606ff"
+                        },
+                        {
+                            "type": "Text",
+                            "id": "4199556f-181e-4e15-9d3a-d17aaf2543dc",
+                            "label": "cnt3_txt",
+                            "useGameObjectName": true,
+                            "x": 303,
+                            "y": 278,
+                            "text": "0",
+                            "fontFamily": "Arial",
+                            "fontSize": "32px",
+                            "fontStyle": "bold",
+                            "color": "#060606ff"
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "id": "2e6c96af-e34b-4b72-8a8f-5d5f5289ceb3",
+                    "label": "aimList_2",
+                    "useGameObjectName": true,
+                    "y": 70,
+                    "list": [
+                        {
+                            "type": "Image",
+                            "id": "39a59f0e-40a2-489f-ba63-5b0a5bf390f6",
+                            "label": "pic_2",
+                            "useGameObjectName": true,
+                            "texture": {
+                                "key": "pic1"
+                            },
+                            "x": 255,
+                            "y": 293,
+                            "scaleX": 0.4,
+                            "scaleY": 0.4
+                        },
+                        {
+                            "type": "Text",
+                            "id": "e6c51c3f-7099-4e27-9bc8-1bc8e6981be4",
+                            "label": "text_2",
+                            "useGameObjectName": true,
+                            "x": 321,
+                            "y": 278,
+                            "text": " / 9",
+                            "fontFamily": "Arial",
+                            "fontSize": "32px",
+                            "fontStyle": "bold",
+                            "color": "#060606ff"
+                        },
+                        {
+                            "type": "Text",
+                            "id": "436cfc3f-b6eb-4ef7-bd53-bfa5b3b95f63",
+                            "label": "cnt2_txt",
+                            "useGameObjectName": true,
+                            "x": 303,
+                            "y": 278,
+                            "text": "0",
+                            "fontFamily": "Arial",
+                            "fontSize": "32px",
+                            "fontStyle": "bold",
+                            "color": "#060606ff"
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "id": "b90e456e-b146-4aff-a220-fd4820ae8c0a",
+                    "label": "aimList_1",
+                    "useGameObjectName": true,
+                    "list": [
+                        {
+                            "type": "Image",
+                            "id": "665ab115-c682-46b2-bb58-a80e592338c8",
+                            "label": "pic_1",
+                            "useGameObjectName": true,
+                            "texture": {
+                                "key": "pic1"
+                            },
+                            "x": 255,
+                            "y": 293,
+                            "scaleX": 0.4,
+                            "scaleY": 0.4
+                        },
+                        {
+                            "type": "Text",
+                            "id": "cdbb65cb-6398-49d1-ae25-42e691d56c53",
+                            "label": "text_1",
+                            "useGameObjectName": true,
+                            "x": 320,
+                            "y": 278,
+                            "text": " / 6",
+                            "fontFamily": "Arial",
+                            "fontSize": "32px",
+                            "fontStyle": "bold",
+                            "color": "#060606ff"
+                        },
+                        {
+                            "type": "Text",
+                            "id": "e96dcd6e-8ec0-4f0a-8c2c-a28959141b50",
+                            "label": "cnt1_txt",
+                            "useGameObjectName": true,
+                            "x": 303,
+                            "y": 278,
+                            "text": "0",
+                            "fontFamily": "Arial",
+                            "fontSize": "32px",
+                            "fontStyle": "bold",
+                            "color": "#060606ff"
+                        }
+                    ]
+                },
+                {
+                    "type": "Image",
+                    "id": "30fde49b-9580-4a78-97be-9de6ddf3be9e",
+                    "label": "tutorial_button",
+                    "useGameObjectName": true,
+                    "texture": {
+                        "key": "tutorial_button"
+                    },
+                    "x": 303,
+                    "y": 607
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "da5ce3ac-5ad9-475e-b101-ba48e2b9b2d6",
+            "label": "levelPanGrp",
+            "useGameObjectName": true,
+            "list": [
+                {
+                    "type": "Rectangle",
+                    "id": "5a0d31b3-5b92-4fe0-8da1-7ffb845ed944",
+                    "label": "rectangle_1",
+                    "scaleX": 10.046963803791948,
+                    "scaleY": 5.675755301589628,
+                    "originX": 0.002542210771122211,
+                    "originY": 0.002542210771122211,
+                    "isFilled": true,
+                    "fillColor": "#000000",
+                    "fillAlpha": 0.5,
+                    "width": 128,
+                    "height": 128
+                },
+                {
+                    "type": "Image",
+                    "id": "c7c7751e-d9bc-4fe0-ba2a-e7b711922c36",
+                    "label": "levelpopup",
+                    "texture": {
+                        "key": "levelpopup"
+                    },
+                    "x": 712,
+                    "y": 363
+                },
+                {
+                    "type": "Container",
+                    "id": "a2c8876f-e50e-4caf-8398-b7cdcec4d0da",
+                    "label": "aimList_6",
+                    "useGameObjectName": true,
+                    "x": 426,
+                    "y": 132,
+                    "list": [
+                        {
+                            "type": "Image",
+                            "id": "3742785f-a8b0-4c6d-9220-32f2584ced05",
+                            "label": "pic_6",
+                            "useGameObjectName": true,
+                            "texture": {
+                                "key": "pic1"
+                            },
+                            "x": 262,
+                            "y": 293,
+                            "scaleX": 0.4,
+                            "scaleY": 0.4
+                        },
+                        {
+                            "type": "Text",
+                            "id": "3e834696-831f-488b-be2a-200faeeee185",
+                            "label": "text_6",
+                            "useGameObjectName": true,
+                            "x": 306,
+                            "y": 278,
+                            "text": "6개",
+                            "fontFamily": "Arial",
+                            "fontSize": "32px",
+                            "fontStyle": "bold",
+                            "color": "#060606ff"
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "id": "21a94a61-be6e-4de5-b3f1-8da9216cca0d",
+                    "label": "aimList_5",
+                    "useGameObjectName": true,
+                    "x": 425,
+                    "y": 68,
+                    "list": [
+                        {
+                            "type": "Image",
+                            "id": "b24aa9dd-9a53-4133-bd80-a9e0daeb1d87",
+                            "label": "pic_5",
+                            "useGameObjectName": true,
+                            "texture": {
+                                "key": "pic1"
+                            },
+                            "x": 262,
+                            "y": 293,
+                            "scaleX": 0.4,
+                            "scaleY": 0.4
+                        },
+                        {
+                            "type": "Text",
+                            "id": "c3e7b1d5-40d7-4db3-baa5-7195f352484b",
+                            "label": "text_5",
+                            "useGameObjectName": true,
+                            "x": 306,
+                            "y": 278,
+                            "text": "9개",
+                            "fontFamily": "Arial",
+                            "fontSize": "32px",
+                            "fontStyle": "bold",
+                            "color": "#060606ff"
+                        }
+                    ]
+                },
+                {
+                    "type": "Container",
+                    "id": "e0dfa930-05a0-4abb-9961-a6ec15fd16ad",
+                    "label": "aimList_4",
+                    "useGameObjectName": true,
+                    "x": 425,
+                    "y": 5,
+                    "list": [
+                        {
+                            "type": "Image",
+                            "id": "29414864-6abf-4b4d-8c4f-6c7f098295bc",
+                            "label": "pic_4",
+                            "useGameObjectName": true,
+                            "texture": {
+                                "key": "pic1"
+                            },
+                            "x": 262,
+                            "y": 293,
+                            "scaleX": 0.4,
+                            "scaleY": 0.4
+                        },
+                        {
+                            "type": "Text",
+                            "id": "4d0ba522-fe12-40de-8bc2-55a7b35130cc",
+                            "label": "text_4",
+                            "useGameObjectName": true,
+                            "x": 306,
+                            "y": 278,
+                            "text": "6개",
+                            "fontFamily": "Arial",
+                            "fontSize": "32px",
+                            "fontStyle": "bold",
+                            "color": "#060606ff"
+                        }
+                    ]
+                },
+                {
+                    "type": "Text",
+                    "id": "2151c7da-a661-4b34-a6df-414b303bb831",
+                    "label": "lv_txt",
+                    "useGameObjectName": true,
+                    "x": 757,
+                    "y": 196,
+                    "text": "1",
+                    "fontFamily": "Arial",
+                    "fontSize": "46px",
+                    "fontStyle": "bold",
+                    "color": "#080808ff"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "2a4031ac-efa4-4706-9006-49a6ed7aa14f",
+            "label": "modalWin",
+            "useGameObjectName": true,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Rectangle",
+                    "id": "a40d61e8-b1d7-4655-b4e9-d54f37cdcdc1",
+                    "label": "rectangle",
+                    "scaleX": 10.046963803791948,
+                    "scaleY": 5.675755301589628,
+                    "originX": 0.002542210771122211,
+                    "originY": 0.002542210771122211,
+                    "isFilled": true,
+                    "fillColor": "#000000",
+                    "fillAlpha": 0.5,
+                    "width": 128,
+                    "height": 128
+                },
+                {
+                    "type": "Image",
+                    "id": "d432f610-dc55-4837-8b36-c205426f5094",
+                    "label": "modalWinImg",
+                    "texture": {
+                        "key": "modalWin"
+                    },
+                    "x": 671,
+                    "y": 363
+                },
+                {
+                    "type": "Ellipse",
+                    "id": "43cb78f9-59fa-4d64-af00-e2eb7c0b6162",
+                    "label": "close_btn",
+                    "useGameObjectName": true,
+                    "x": 916,
+                    "y": 151,
+                    "scaleX": 0.3,
+                    "scaleY": 0.3,
+                    "alpha": 0.01,
+                    "isFilled": true,
+                    "width": 128,
+                    "height": 128
+                },
+                {
+                    "type": "Rectangle",
+                    "id": "5ccb9391-ae03-4499-ae50-f7c6acdbddd8",
+                    "label": "ok_btn",
+                    "useGameObjectName": true,
+                    "x": 672,
+                    "y": 531,
+                    "scaleX": 1.4356587397971847,
+                    "scaleY": 0.6742510995320397,
+                    "alpha": 0.01,
+                    "isFilled": true,
+                    "width": 128,
+                    "height": 128
+                },
+                {
+                    "type": "Text",
+                    "id": "6bc2850d-c5ca-40d8-916e-323adb63dad2",
+                    "label": "modal_txt",
+                    "useGameObjectName": true,
+                    "x": 491,
+                    "y": 184,
+                    "text": "안내글입니다.",
+                    "fontFamily": "Arial",
+                    "fontSize": "42px",
+                    "fontStyle": "bold",
+                    "color": "#090909ff"
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "id": "80cef842-5c37-4ada-94ac-b811dd89dd4f",
+            "label": "tutorialWin",
+            "useGameObjectName": true,
+            "visible": false,
+            "list": [
+                {
+                    "type": "Rectangle",
+                    "id": "f32fc67e-21ca-45bb-b2be-ebb0164f4de4",
+                    "label": "rectangle_2",
+                    "scaleX": 10.046963803791948,
+                    "scaleY": 5.675755301589628,
+                    "originX": 0.002542210771122211,
+                    "originY": 0.002542210771122211,
+                    "isFilled": true,
+                    "fillColor": "#000000",
+                    "fillAlpha": 0.5,
+                    "width": 128,
+                    "height": 128
+                },
+                {
+                    "type": "Image",
+                    "id": "ab3c91e7-6aa2-4c6b-ad11-b9ca610e87ca",
+                    "label": "tutorial01",
+                    "texture": {
+                        "key": "tutorial01"
+                    },
+                    "x": 822,
+                    "y": 426
+                }
+            ]
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    }
+}
