@@ -67,29 +67,31 @@ class Match3Animation {
     }
 
     removeTileEffect(tile, tileGrp) {
-        // 제거 이펙트
-        const effect = this.scene.add.sprite(
-            tile.x,
-            tile.y,
-            'removeEff'
-        );
-        effect.setDepth(1);
-        tileGrp.add(effect);
-        
-        try {
-            effect.play('removeEff');
-            effect.on('animationcomplete', () => {
-                effect.destroy();
+        // sparkle1 이미지를 사용한 제거 이펙트
+        if (this.scene.textures.exists('sparkle1')) {
+            const effect = this.scene.add.image(tile.x, tile.y, 'sparkle1');
+            effect.setDepth(1);
+            effect.setDisplaySize(60, 60);
+            tileGrp.add(effect);
+            
+            // 반짝임 효과
+            this.scene.tweens.add({
+                targets: effect,
+                scale: { from: 0.5, to: 2 },
+                alpha: { from: 1, to: 0 },
+                duration: 300,
+                ease: 'Power2',
+                onComplete: () => {
+                    effect.destroy();
+                }
             });
-        } catch (e) {
-            console.log(e);
-            effect.destroy();
         }
         
         // 타일 축소 애니메이션
         this.scene.tweens.add({
             targets: tile,
             scale: 0,
+            alpha: 0,
             duration: 300,
             ease: 'Power2',
             onComplete: () => {

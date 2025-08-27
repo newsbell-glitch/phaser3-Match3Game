@@ -117,7 +117,7 @@ class Match3Game extends Phaser.Scene {
 		
 		this.lv_txt = this.add.text(30, 0, this.levelData.level.toString().padStart(2, '0'), {
 			fontFamily: 'Arial Black',
-			fontSize: '84px',
+			fontSize: '64px',
 			color: '#1D6B97',
 			stroke: '#FFFFFF',
 			strokeThickness: 2,
@@ -182,13 +182,23 @@ class Match3Game extends Phaser.Scene {
 		
 		missionPanel.add([panelBg, missionText]);
 		
-		// 미션 아이템들 - 기본값으로 초기화
+		// 미션 아이템들 - 레벨에 맞게 수정
 		this.missionTargets = [];
-		const missionItems = [
-			{ type: 'bear_img', count: 6, y: -90 },
-			{ type: 'special', count: 6, y: 0 },
-			{ type: 'bear_img', count: 6, y: 90 }
-		];
+		const missionItems = this.levelData.level === 1 ? 
+			[
+				{ type: 'bear_img', count: 6, y: -90 },
+				{ type: 'cat_img', count: 9, y: 0 }
+			] : this.levelData.level === 2 ?
+			[
+				{ type: 'bear_img', count: 3, y: -90 },
+				{ type: 'cat_img', count: 6, y: 0 },
+				{ type: 'dog_img', count: 9, y: 90 }
+			] :
+			[
+				{ type: 'bear_img', count: 6, y: -90 },
+				{ type: 'cat_img', count: 9, y: 0 },
+				{ type: 'dog_img', count: 9, y: 90 }
+			];
 		
 		missionItems.forEach((item, index) => {
 			const itemContainer = this.add.container(0, item.y);
@@ -198,38 +208,13 @@ class Match3Game extends Phaser.Scene {
 			targetBg.fillStyle(0xB7BBBD, 1);
 			targetBg.fillCircle(-30, 0, 24);
 			
-			// 타겟 이미지 또는 아이콘
-			if (item.type === 'special') {
-				// 특수 타일 (파란색 사각형)
-				const specialBg = this.add.graphics();
-				specialBg.fillStyle(0x74f9f9, 1);
-				specialBg.fillRoundedRect(-30-41.5, -41.5, 83, 83, 10);
-				
-				const specialText = this.add.text(-30, 0, item.count.toString(), {
-					fontFamily: 'Arial Black',
-					fontSize: '28px',
-					color: '#FFFFFF',
-					stroke: '#000000',
-					strokeThickness: 1.5,
-					shadow: {
-						offsetY: 2,
-						color: '#000000',
-						blur: 0,
-						fill: true
-					}
-				});
-				specialText.setOrigin(0.5, 0.5);
-				
-				itemContainer.add([targetBg, specialBg, specialText]);
+			// 타겟 이미지 - 수정
+			if(this.textures.exists(item.type)) {
+				const animalImg = this.add.image(-30, 0, item.type);
+				animalImg.setDisplaySize(84, 85);
+				itemContainer.add([targetBg, animalImg]);
 			} else {
-				// 동물 타일
-				if(this.textures.exists(item.type)) {
-					const animalImg = this.add.image(-30, 0, item.type);
-					animalImg.setDisplaySize(84, 85);
-					itemContainer.add([targetBg, animalImg]);
-				} else {
-					itemContainer.add(targetBg);
-				}
+				itemContainer.add(targetBg);
 			}
 			
 			// 카운트 텍스트 (오른쪽)
@@ -251,10 +236,10 @@ class Match3Game extends Phaser.Scene {
 			itemContainer.add(countText);
 			missionPanel.add(itemContainer);
 			
-			// 이미지 참조 저장
+			// 이미지 참조 저장 - 수정
 			let imageRef = null;
-			if (item.type !== 'special' && this.textures.exists(item.type)) {
-				imageRef = itemContainer.getAt(itemContainer.length - 2); // 마지막에서 두번째 요소가 이미지
+			if (this.textures.exists(item.type)) {
+				imageRef = itemContainer.getAt(itemContainer.length - 2);
 			}
 			
 			this.missionTargets.push({ 
@@ -267,57 +252,59 @@ class Match3Game extends Phaser.Scene {
 		
 		topUIContainer.add(missionPanel);
 		
-		// 하단 버튼들 (Figma 좌표 기준)
-		const bottomButtons = this.add.container(85, 860);
+		// 하단 버튼들 (위치 조정 - 올림)
+		const bottomButtons = this.add.container(85, 820);
 		
 		// 파란 아이콘 버튼
 		const blueIconBtn = this.add.image(0, 0, 'blue_icon_img');
 		blueIconBtn.setDisplaySize(70, 77);
 		blueIconBtn.setInteractive();
 		
-		// 물음표 버튼
-		const questionBtn = this.add.image(0, 90, 'question_img');
+		// 물음표 버튼 - 파란 버튼 안으로 이동
+		const questionBtn = this.add.image(0, 0, 'question_img');
 		questionBtn.setDisplaySize(28, 46);
 		questionBtn.setInteractive();
 		
 		bottomButtons.add([blueIconBtn, questionBtn]);
 		topUIContainer.add(bottomButtons);
 		
-		// 옵션 버튼 (오른쪽 하단)
+		// 튜토리얼 노란색 이미지 제거 (주석 처리)
+		/*
 		const optionButton = this.add.image(1720, 990, 'option_img');
 		optionButton.setDisplaySize(148, 70);
 		optionButton.setInteractive();
+		*/
 		
-		// 게임 보드 영역 (Figma 좌표: x=400, y=0 부터 시작)
-		const boardContainer = this.add.container(400 + 600, 135);
+		// 게임 보드 영역 - 위치 조정 (왼쪽으로 이동)
+		const boardContainer = this.add.container(400 + 520, 135);
 		
-		// 보드 프레임 배경
+		// 보드 프레임 배경 - 세로 늘림
 		const frameBg = this.add.graphics();
 		frameBg.fillStyle(0x000000, 0.5);
-		frameBg.fillRoundedRect(-580, -70, 1160, 900, 20);
+		frameBg.fillRoundedRect(-580, -70, 1160, 950, 20);
 		
-		// 그리드 배경 (뒤쪽 레이어)
+		// 그리드 배경 (뒤쪽 레이어) - 세로 늘림
 		const gridOuterBg = this.add.graphics();
 		gridOuterBg.fillStyle(0xD9D9D9, 1);
-		gridOuterBg.fillRoundedRect(-570, -60, 1140, 880, 18);
+		gridOuterBg.fillRoundedRect(-570, -60, 1140, 930, 18);
 		gridOuterBg.lineStyle(4, 0xCCCCCC, 1);
-		gridOuterBg.strokeRoundedRect(-570, -60, 1140, 880, 18);
+		gridOuterBg.strokeRoundedRect(-570, -60, 1140, 930, 18);
 		
-		// 그리드 내부 배경
+		// 그리드 내부 배경 - 세로 늘림
 		const gridInnerBg = this.add.graphics();
 		gridInnerBg.fillStyle(0xFFFFFF, 0.3);
-		gridInnerBg.fillRoundedRect(-560, -50, 1120, 860, 12);
+		gridInnerBg.fillRoundedRect(-560, -50, 1120, 910, 12);
 		
 		boardContainer.add([frameBg, gridOuterBg, gridInnerBg]);
 		
-		// 그리드 셀들 (8x6 그리드)
+		// 그리드 셀들 (8x6 그리드) - 위치 조정
 		const gridCells = this.add.graphics();
 		gridCells.fillStyle(0xCCCCCC, 0.8);
 		
 		const cellSize = 94;
-		const cellGap = 46;
+		const cellGap = 42; // 간격 줄임 (46 -> 42)
 		const startX = -370;
-		const startY = 20;
+		const startY = 30; // 조금 아래로 (20 -> 30)
 		
 		for (let row = 0; row < 6; row++) {
 			for (let col = 0; col < 8; col++) {
@@ -329,15 +316,15 @@ class Match3Game extends Phaser.Scene {
 		
 		boardContainer.add(gridCells);
 		
-		// 모든 컨테이너 추가
+		// 모든 컨테이너 추가 - optionButton 제거
 		this.add.existing(mainGameContainer);
-		mainGameContainer.add([topUIContainer, boardContainer, optionButton]);
+		mainGameContainer.add([topUIContainer, boardContainer]);
 		
 		// 그리드 컨테이너를 위치 조정
 		this.tileGrp = this.add.group();
 		
-		// 그리드 시작 위치를 보드 컨테이너 기준으로 설정
-		this.gridStartX = 1000 + startX;
+		// 그리드 시작 위치를 보드 컨테이너 기준으로 설정 (왼쪽으로 이동)
+		this.gridStartX = 920 + startX; // 1000 -> 920으로 변경
 		this.gridStartY = 135 + startY;
 		
 		// 튜토리얼과 모달 설정

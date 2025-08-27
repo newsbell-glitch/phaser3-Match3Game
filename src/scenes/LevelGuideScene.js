@@ -43,55 +43,41 @@ export default class LevelGuideScene extends Phaser.Scene {
         // 메인 컨테이너
         const mainContainer = this.add.container(960, 540);
 
-        // 1. 도움말 배경 이미지 사용 (game_help_bg.png) - 세로 비율을 늘려서 더 길게 보이게
+        // 1. 도움말 배경 이미지 사용 (game_help_bg.png)
         let board;
         if (this.textures.exists('game_help_bg')) {
             board = this.add.image(0, 0, 'game_help_bg');
-            // 세로를 더 길게, 가로는 조금 줄여서 원래 비율처럼 보이게 조정
-            board.setDisplaySize(600, 700); // 가로 줄이고 세로 늘림
+            board.setDisplaySize(600, 700);
         } else if (this.textures.exists('level_guide_board')) {
-            // 대체 이미지 사용
             board = this.add.image(0, 0, 'level_guide_board');
             board.setScale(0.495);
         } else {
-            // 기본 사각형 배경
             board = this.add.rectangle(0, 0, 600, 700, 0xf0f0f0);
             board.setStrokeStyle(4, 0x666666);
         }
         mainContainer.add(board);
 
-        // 2. 레벨 배너 (판 위쪽에 겹치게)
+        // 2. 레벨 배너 (판 위쪽에 겹치게) - 위로 더 올림
         if (this.textures.exists('level_banner')) {
-            const levelBanner = this.add.image(0, -280, 'level_banner');
-            levelBanner.setScale(0.4); // 배너 크기도 조정
+            const levelBanner = this.add.image(0, -320, 'level_banner');
+            levelBanner.setScale(0.35);
             mainContainer.add(levelBanner);
         }
 
-        // 레벨 텍스트 (배너 위에 또는 상단에)
-        const levelText = this.add.text(0, -280, `LEVEL ${this.currentLevel.toString().padStart(2, '0')}`, {
-            fontSize: '50px',
+        // 레벨 텍스트 (배너와 정확히 맞춤) - 위로 더 올림
+        const levelText = this.add.text(0, -320, `LEVEL ${this.currentLevel.toString().padStart(2, '0')}`, {
+            fontSize: '42px',
             fontFamily: 'Arial Black',
             color: '#FEF4BF',
             stroke: '#914A28',
-            strokeThickness: 3
+            strokeThickness: 2
         });
         levelText.setOrigin(0.5);
         mainContainer.add(levelText);
 
-        // 3. X 버튼 (투명 히트 영역) - 우상단
-        const xButton = this.add.circle(270, -280, 30, 0xff0000, 0.1); // 크기 조정
+        // 3. X 버튼 (투명 히트 영역) - 우상단, 파란 X 버튼 영역에 맞춤
+        const xButton = this.add.circle(275, -280, 25, 0x000000, 0);
         xButton.setInteractive({ useHandCursor: true });
-        
-        // X 표시 추가
-        const xGraphics = this.add.graphics();
-        xGraphics.lineStyle(4, 0x666666, 1);
-        xGraphics.beginPath();
-        xGraphics.moveTo(255, -295);
-        xGraphics.lineTo(285, -265);
-        xGraphics.moveTo(285, -295);
-        xGraphics.lineTo(255, -265);
-        xGraphics.strokePath();
-        mainContainer.add(xGraphics);
         
         xButton.on('pointerup', () => {
             this.closeGuideAndStartGame();
@@ -99,8 +85,8 @@ export default class LevelGuideScene extends Phaser.Scene {
         
         mainContainer.add(xButton);
 
-        // 4. 미션 아이템들 (회색 박스 내부)
-        const missionY = -120;
+        // 4. 미션 아이템들 (아래로 이동)
+        const missionY = -180; // 더 아래로 이동
         const items = this.currentLevel === 1 ? 
             [
                 { x: -80, image: 'bear_purple_figma', count: 6 },
@@ -115,7 +101,7 @@ export default class LevelGuideScene extends Phaser.Scene {
         items.forEach((item) => {
             // 동물 그림자
             const shadowImg = this.add.image(item.x + 3, missionY + 3, item.image);
-            shadowImg.setDisplaySize(90, 92); // 크기 조정
+            shadowImg.setDisplaySize(90, 92);
             shadowImg.setTint(0x000000);
             shadowImg.setAlpha(0.3);
             mainContainer.add(shadowImg);
@@ -123,10 +109,9 @@ export default class LevelGuideScene extends Phaser.Scene {
             // 동물 이미지
             if (this.textures.exists(item.image)) {
                 const animal = this.add.image(item.x, missionY, item.image);
-                animal.setDisplaySize(90, 92); // 크기 조정
+                animal.setDisplaySize(90, 92);
                 mainContainer.add(animal);
             } else {
-                // 이미지가 없으면 임시 사각형
                 const tempRect = this.add.rectangle(item.x, missionY, 90, 92, 0xcccccc);
                 tempRect.setStrokeStyle(2, 0x666666);
                 mainContainer.add(tempRect);
@@ -146,7 +131,7 @@ export default class LevelGuideScene extends Phaser.Scene {
             // 숫자 배경 (흰색 원)
             const numberBg = this.add.graphics();
             numberBg.fillStyle(0xFFFFFF, 1);
-            numberBg.fillCircle(numberX, numberY, 18); // 크기 조정
+            numberBg.fillCircle(numberX, numberY, 18);
             numberBg.lineStyle(2, 0x666666, 1);
             numberBg.strokeCircle(numberX, numberY, 18);
             mainContainer.add(numberBg);
@@ -161,8 +146,8 @@ export default class LevelGuideScene extends Phaser.Scene {
             mainContainer.add(number);
         });
 
-        // 5. 설명 텍스트
-        const descText = this.add.text(0, 20, '목표 타일의 갯수만큼\n젤리를 제거하기', {
+        // 5. 설명 텍스트 (더 아래로 이동)
+        const descText = this.add.text(0, -40, '목표 타일의 갯수만큼\n젤리를 제거하기', {
             fontSize: '32px',
             fontFamily: 'Arial',
             color: '#528AAA',
@@ -172,18 +157,17 @@ export default class LevelGuideScene extends Phaser.Scene {
         descText.setOrigin(0.5);
         mainContainer.add(descText);
 
-        // 6. 확인 완료 버튼 (confirm_button.png 사용)
+        // 6. 확인 완료 버튼 (더 많이 아래로 이동, 세로 키움)
         let confirmButton;
         if (this.textures.exists('confirm_button')) {
-            confirmButton = this.add.image(0, 160, 'confirm_button');
-            confirmButton.setDisplaySize(180, 50); // 크기 조정
+            confirmButton = this.add.image(0, 100, 'confirm_button');
+            confirmButton.setDisplaySize(200, 70); // 세로를 키움
         } else {
-            // 대체 버튼
-            confirmButton = this.add.rectangle(0, 160, 180, 50, 0x4CAF50);
+            confirmButton = this.add.rectangle(0, 100, 200, 70, 0x4CAF50);
             confirmButton.setStrokeStyle(3, 0x2E7D32);
             
-            const buttonText = this.add.text(0, 160, 'CONFIRM', {
-                fontSize: '20px',
+            const buttonText = this.add.text(0, 100, 'CONFIRM', {
+                fontSize: '24px',
                 fontFamily: 'Arial Black',
                 color: '#FFFFFF'
             });
