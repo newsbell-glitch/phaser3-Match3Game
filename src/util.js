@@ -16,6 +16,9 @@ function addElmSort(array, element) {
     if (!array.includes(element)) {
         array.push(element);
     }
+    array.sort(function (a, b) {
+        return a - b;
+    });
 }
 
 // 전역 유틸리티로 등록
