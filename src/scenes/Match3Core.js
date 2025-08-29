@@ -14,14 +14,19 @@ class Match3Core {
         this.tilesToPlace = this.gridSize * this.gridSize;
         this.selectedTile = null;
         this.swapping = false;
-        this.startX = 550; // 왼쪽으로 이동 (630 -> 550)
-        this.startY = 155;
+        // 새로운 게임판 위치 (중앙 정렬)
+        const boardCenterX = 960;
+        const boardCenterY = 540;
+        const gridWidth = 8 * this.tileSize + 7 * 10; // 8 tiles + 7 gaps
+        const gridHeight = 6 * this.tileSize + 5 * 10; // 6 tiles + 5 gaps
+        this.startX = boardCenterX - gridWidth / 2 + this.tileSize / 2;
+        this.startY = boardCenterY - gridHeight / 2 + this.tileSize / 2;
         this.score = 0;
         this.tot_aimCnt = 0;
         this.scoreText = null;
         this.tileGrp = scene.tileGrp;
         this.game_on = false;
-        this.tileGap = 42; // 간격 줄임 (46 -> 42)
+        this.tileGap = 10; // 타일 간 간격 (적절하게 조정)
     }
 
     getConfig() {
@@ -93,11 +98,13 @@ class Match3Core {
     }
 
     createTile(row, col, type) {
-        let x = this.startX + col * (this.tileSize + this.tileGap);
-        let y = this.startY + row * (this.tileSize + this.tileGap);
+        // 타일 크기 조정 (85px)
+        const adjustedTileSize = 85;
+        let x = this.startX + col * (adjustedTileSize + this.tileGap);
+        let y = this.startY + row * (adjustedTileSize + this.tileGap);
         
         let tile = this.scene.add.image(x, y, this.assets[type]);
-        tile.setDisplaySize(this.tileSize, this.tileSize);
+        tile.setDisplaySize(85, 85); // 타일 크기를 85x85로 고정
         tile.row = row;
         tile.col = col;
         tile.type = type;

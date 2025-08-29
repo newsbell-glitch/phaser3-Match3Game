@@ -28,6 +28,7 @@ class Match3Game extends Phaser.Scene {
 		this.load.image('pin_img', 'images/pin.png');
 		this.load.image('blue_icon_img', 'images/blue_icon.png');
 		this.load.image('question_img', 'images/question_mark.png');
+		this.load.image('settings_img', 'images/settings.png');
 		
 		// 동물 이미지들 로드
 		this.load.image('bear_img', 'images/bear.png');
@@ -36,9 +37,6 @@ class Match3Game extends Phaser.Scene {
 		this.load.image('rabbit_img', 'images/rabbit.png');
 		this.load.image('raccoon_img', 'images/raccoon.png');
 		this.load.image('quokka_img', 'images/quokka.png');
-		
-		// 옵션 버튼은 기존 tutorial_button 사용
-		this.load.image('option_img', 'assets/tutorial_button.png');
 	}
 	
 	init(data) {
@@ -54,7 +52,6 @@ class Match3Game extends Phaser.Scene {
 		this.match3 = match3;
 		this.core = match3.core;
 		match3.makeMatch(this);
-		//match3Game.setScoreText(this.scoreText);
 	}
 	
 	startLevel() {
@@ -73,205 +70,178 @@ class Match3Game extends Phaser.Scene {
 		bg.setOrigin(0.5, 0.5);
 		bg.setDisplaySize(1920, 1080);
 		
-		// 메인 게임 영역 컨테이너
-		const mainGameContainer = this.add.container(0, 0);
+		// ===============================================
+		// 왼쪽 미션 패널 영역 (이미지 디자인 참조)
+		// ===============================================
+		const leftPanelContainer = this.add.container(200, 540);
 		
-		// 상단 UI 영역
-		const topUIContainer = this.add.container(0, 0);
+		// 메인 패널 배경 (회색 둥근 사각형)
+		const panelBg = this.add.graphics();
+		panelBg.fillStyle(0xE8E8E8, 1);
+		panelBg.fillRoundedRect(-150, -450, 300, 900, 25);
+		panelBg.lineStyle(3, 0xD0D0D0, 1);
+		panelBg.strokeRoundedRect(-150, -450, 300, 900, 25);
+		leftPanelContainer.add(panelBg);
 		
-		// 메뉴 버튼 영역 (Figma 좌표: x=40, y=79, width=320, height=814)
-		const menuContainer = this.add.container(40 + 160, 79 + 407);
-		const menuBg = this.add.image(0, 0, 'menu_img');
-		menuBg.setDisplaySize(320, 814);
+		// 상단 핀 아이콘
+		const pinIcon = this.add.image(0, -430, 'pin_img');
+		pinIcon.setDisplaySize(40, 52);
+		leftPanelContainer.add(pinIcon);
 		
-		// 핀 아이콘 (Figma 좌표: x=142.93, y=0 상대위치)
-		const pinIcon = this.add.image(2.93, -407, 'pin_img');
-		pinIcon.setDisplaySize(35, 47);
-		menuContainer.add([menuBg, pinIcon]);
-		topUIContainer.add(menuContainer);
+		// 레벨 표시 영역
+		const levelContainer = this.add.container(0, -330);
 		
-		// 레벨 표시 영역 (메뉴 내부)
-		const levelContainer = this.add.container(200, 170);
-		
-		// 레벨 배경 (흰색 둥근 사각형)
-		const levelBg = this.add.graphics();
-		levelBg.fillStyle(0xFFFFFF, 0.95);
-		levelBg.fillRoundedRect(-90, -30, 180, 60, 20);
-		levelContainer.add(levelBg);
-		
-		// 레벨 텍스트
-		const levelLabel = this.add.text(-30, 0, 'Lv', {
+		// Lv 텍스트 (파란색)
+		const levelLabel = this.add.text(-35, 0, 'Lv', {
 			fontFamily: 'Arial Black',
-			fontSize: '36px',
-			color: '#3E91C1',
-			stroke: '#FFFFFF',
-			strokeThickness: 2,
-			shadow: {
-				offsetY: 3,
-				color: '#185870',
-				blur: 1,
-				fill: true
-			}
+			fontSize: '42px',
+			color: '#4A90E2',
+			fontStyle: 'bold'
 		});
 		levelLabel.setOrigin(0.5, 0.5);
 		
-		this.lv_txt = this.add.text(30, 0, this.levelData.level.toString().padStart(2, '0'), {
+		// 레벨 숫자 (큰 사이즈)
+		this.lv_txt = this.add.text(25, 0, this.levelData.level.toString().padStart(2, '0'), {
 			fontFamily: 'Arial Black',
-			fontSize: '64px',
-			color: '#1D6B97',
-			stroke: '#FFFFFF',
-			strokeThickness: 2,
-			letterSpacing: -4,
-			shadow: {
-				offsetY: 4,
-				color: '#16556e',
-				blur: 1,
-				fill: true
-			}
+			fontSize: '56px',
+			color: '#333333',
+			fontStyle: 'bold'
 		});
 		this.lv_txt.setOrigin(0.5, 0.5);
 		
 		levelContainer.add([levelLabel, this.lv_txt]);
-		topUIContainer.add(levelContainer);
+		leftPanelContainer.add(levelContainer);
 		
-		// 프로그레스바
-		const progressContainer = this.add.container(200, 250);
+		// 프로그레스바 영역
+		const progressContainer = this.add.container(0, -250);
 		
-		// 프로그레스바 배경
+		// 프로그레스바 외곽
 		const progressBg = this.add.graphics();
-		progressBg.fillStyle(0x53524E, 1);
-		progressBg.fillRoundedRect(-81, -13, 162, 26, 13);
-		progressBg.lineStyle(2, 0x275D81, 1);
-		progressBg.strokeRoundedRect(-81, -13, 162, 26, 13);
+		progressBg.fillStyle(0x666666, 1);
+		progressBg.fillRoundedRect(-100, -15, 200, 30, 15);
 		
-		// 그림자 효과
-		const progressShadow = this.add.graphics();
-		progressShadow.fillStyle(0x444444, 1);
-		progressShadow.fillRoundedRect(-81, -10, 162, 9, 4);
+		// 프로그레스바 내부 배경
+		const progressInner = this.add.graphics();
+		progressInner.fillStyle(0x333333, 1);
+		progressInner.fillRoundedRect(-98, -13, 196, 26, 13);
 		
-		// 프로그레스바 채우기
+		// 프로그레스바 채우기 (노란색)
 		this.progressFill = this.add.graphics();
-		this.progressFill.fillStyle(0xFFD202, 1);
-		this.progressFill.fillRoundedRect(-81, -13, 75, 26, 13);
+		this.progressFill.fillStyle(0xFFD700, 1);
+		const progressWidth = 196 * 0.4; // 40% 채워진 상태
+		this.progressFill.fillRoundedRect(-98, -13, progressWidth, 26, 13);
 		
-		// 하이라이트 효과
-		const progressHighlight = this.add.graphics();
-		progressHighlight.fillStyle(0xFFEF03, 1);
-		progressHighlight.fillRoundedRect(-60, -1, 61, 3, 1.5);
-		
-		progressContainer.add([progressBg, progressShadow, this.progressFill, progressHighlight]);
-		topUIContainer.add(progressContainer);
-		
-		// 미션 패널 (Figma 좌표: y=297 부터 시작, height=454)
-		const missionPanel = this.add.container(200, 524);
-		
-		// 패널 배경
-		const panelBg = this.add.graphics();
-		panelBg.fillStyle(0xD9D9D9, 1);
-		panelBg.fillRoundedRect(-81, -227, 162, 454, 16);
-		panelBg.lineStyle(2, 0xBCBCBC, 1);
-		panelBg.strokeRoundedRect(-81, -227, 162, 454, 16);
+		progressContainer.add([progressBg, progressInner, this.progressFill]);
+		leftPanelContainer.add(progressContainer);
 		
 		// MISSION 텍스트
-		const missionText = this.add.text(0, -180, 'MISSION', {
+		const missionText = this.add.text(0, -150, 'MISSION', {
 			fontFamily: 'Arial Black',
-			fontSize: '24px',
-			color: '#8A999F'
+			fontSize: '28px',
+			color: '#666666',
+			fontStyle: 'bold'
 		});
 		missionText.setOrigin(0.5, 0.5);
+		leftPanelContainer.add(missionText);
 		
-		missionPanel.add([panelBg, missionText]);
-		
-		// 미션 아이템들 - 레벨에 맞게 수정
-		this.missionTargets = [];
+		// 미션 아이템들 영역
 		const missionItems = this.levelData.level === 1 ? 
 			[
-				{ type: 'bear_img', count: 6, y: -90 },
-				{ type: 'cat_img', count: 9, y: 0 }
+				{ type: 'bear_purple_figma', count: 6, y: -50 },
+				{ type: 'quokka_img', count: 6, y: 50 },
+				{ type: 'cat_img', count: 6, y: 150 }
 			] : this.levelData.level === 2 ?
 			[
-				{ type: 'bear_img', count: 3, y: -90 },
-				{ type: 'cat_img', count: 6, y: 0 },
-				{ type: 'dog_img', count: 9, y: 90 }
+				{ type: 'bear_purple_figma', count: 3, y: -50 },
+				{ type: 'cat_img', count: 6, y: 50 },
+				{ type: 'dog_img', count: 9, y: 150 }
 			] :
 			[
-				{ type: 'bear_img', count: 6, y: -90 },
-				{ type: 'cat_img', count: 9, y: 0 },
-				{ type: 'dog_img', count: 9, y: 90 }
+				{ type: 'bear_purple_figma', count: 6, y: -50 },
+				{ type: 'quokka_img', count: 6, y: 50 },
+				{ type: 'raccoon_img', count: 6, y: 150 }
 			];
+		
+		this.missionTargets = [];
 		
 		missionItems.forEach((item, index) => {
 			const itemContainer = this.add.container(0, item.y);
 			
-			// 타겟 배경 원
-			const targetBg = this.add.graphics();
-			targetBg.fillStyle(0xB7BBBD, 1);
-			targetBg.fillCircle(-30, 0, 24);
+			// 미션 아이템 배경 (원형)
+			const itemBg = this.add.graphics();
+			itemBg.fillStyle(0xFFFFFF, 1);
+			itemBg.fillCircle(-40, 0, 35);
+			itemBg.lineStyle(2, 0xDDDDDD, 1);
+			itemBg.strokeCircle(-40, 0, 35);
+			itemContainer.add(itemBg);
 			
-			// 타겟 이미지 - 수정
-			if(this.textures.exists(item.type)) {
-				const animalImg = this.add.image(-30, 0, item.type);
-				animalImg.setDisplaySize(84, 85);
-				itemContainer.add([targetBg, animalImg]);
-			} else {
-				itemContainer.add(targetBg);
+			// 동물 이미지
+			let animalImg;
+			if (item.type === 'bear_purple_figma') {
+				// 보라색 곰 이미지 생성 (임시)
+				const bearBg = this.add.graphics();
+				bearBg.fillStyle(0x9B59B6, 1);
+				bearBg.fillCircle(-40, 0, 28);
+				itemContainer.add(bearBg);
+			} else if (this.textures.exists(item.type)) {
+				animalImg = this.add.image(-40, 0, item.type);
+				animalImg.setDisplaySize(56, 56);
+				itemContainer.add(animalImg);
 			}
 			
-			// 카운트 텍스트 (오른쪽)
-			const countText = this.add.text(30, 0, `${item.count}`, {
+			// 개수 텍스트 (오른쪽)
+			const countText = this.add.text(40, 0, item.count.toString(), {
 				fontFamily: 'Arial Black',
-				fontSize: '28px',
-				color: '#FFFFFF',
-				stroke: '#000000',
-				strokeThickness: 1.5,
-				shadow: {
-					offsetY: 2,
-					color: '#000000',
-					blur: 0,
-					fill: true
-				}
+				fontSize: '36px',
+				color: '#333333',
+				fontStyle: 'bold'
 			});
 			countText.setOrigin(0.5, 0.5);
-			
 			itemContainer.add(countText);
-			missionPanel.add(itemContainer);
 			
-			// 이미지 참조 저장 - 수정
-			let imageRef = null;
-			if (this.textures.exists(item.type)) {
-				imageRef = itemContainer.getAt(itemContainer.length - 2);
-			}
-			
+			leftPanelContainer.add(itemContainer);
 			this.missionTargets.push({ 
 				container: itemContainer, 
 				text: countText, 
 				type: item.type,
-				image: imageRef
+				image: animalImg
 			});
 		});
 		
-		topUIContainer.add(missionPanel);
+		// 하단 버튼들
+		const bottomButtonsContainer = this.add.container(0, 350);
 		
-		// 하단 버튼들 (위치 조정 - 올림)
-		const bottomButtons = this.add.container(85, 820);
+		// 물음표 버튼 (파란색 배경)
+		const questionBtnBg = this.add.graphics();
+		questionBtnBg.fillStyle(0x4A90E2, 1);
+		questionBtnBg.fillCircle(-60, 0, 35);
+		questionBtnBg.lineStyle(2, 0x3A7BC8, 1);
+		questionBtnBg.strokeCircle(-60, 0, 35);
 		
-		// 파란 아이콘 버튼 - 튜토리얼 기능
-		const blueIconBtn = this.add.image(0, 0, 'blue_icon_img');
-		blueIconBtn.setDisplaySize(70, 77);
-		blueIconBtn.setInteractive({ useHandCursor: true });
-		
-		// 물음표 버튼 - 파란 버튼 안으로 이동, 튜토리얼 기능 추가
-		const questionBtn = this.add.image(0, 0, 'question_img');
-		questionBtn.setDisplaySize(28, 46);
+		const questionBtn = this.add.image(-60, 0, 'question_img');
+		questionBtn.setDisplaySize(30, 40);
 		questionBtn.setInteractive({ useHandCursor: true });
 		
-		// 튜토리얼 기능 추가
+		// 설정 버튼 (회색 배경)
+		const settingsBtnBg = this.add.graphics();
+		settingsBtnBg.fillStyle(0x888888, 1);
+		settingsBtnBg.fillCircle(60, 0, 35);
+		settingsBtnBg.lineStyle(2, 0x666666, 1);
+		settingsBtnBg.strokeCircle(60, 0, 35);
+		
+		const settingsBtn = this.add.image(60, 0, 'settings_img');
+		settingsBtn.setDisplaySize(40, 40);
+		settingsBtn.setInteractive({ useHandCursor: true });
+		
+		bottomButtonsContainer.add([questionBtnBg, questionBtn, settingsBtnBg, settingsBtn]);
+		leftPanelContainer.add(bottomButtonsContainer);
+		
+		// 물음표 버튼 클릭 이벤트 (튜토리얼)
 		questionBtn.on('pointerup', () => {
 			if (this.tutorialWin) {
 				if (this.tutorialWin.visible) {
 					this.tutorialWin.visible = false;
 					this.input.setGlobalTopOnly(false);
-					// 타일 드래그 가능하게 복원
 					if (this.tileGrp) {
 						this.tileGrp.getAll().forEach(tile => {
 							tile.setInteractive({ draggable: true });
@@ -280,7 +250,6 @@ class Match3Game extends Phaser.Scene {
 				} else {
 					this.tutorialWin.visible = true;
 					this.input.setGlobalTopOnly(true);
-					// 타일 드래그 불가능하게 설정
 					if (this.tileGrp) {
 						this.tileGrp.getAll().forEach(tile => {
 							tile.disableInteractive();
@@ -297,82 +266,57 @@ class Match3Game extends Phaser.Scene {
 			}
 		});
 		
-		bottomButtons.add([blueIconBtn, questionBtn]);
-		topUIContainer.add(bottomButtons);
+		// ===============================================
+		// 게임 보드 영역 (8x6 그리드)
+		// ===============================================
+		const boardContainer = this.add.container(960, 540);
 		
-		// 튜토리얼 노란색 이미지 제거 (주석 처리)
-		/*
-		const optionButton = this.add.image(1720, 990, 'option_img');
-		optionButton.setDisplaySize(148, 70);
-		optionButton.setInteractive();
-		*/
+		// 게임보드 배경 (어두운 배경)
+		const boardBg = this.add.graphics();
+		boardBg.fillStyle(0x2C3E50, 0.9);
+		boardBg.fillRoundedRect(-380, -300, 760, 600, 20);
+		boardContainer.add(boardBg);
 		
-		// 게임 보드 영역 - 위치 조정 (왼쪽으로 이동)
-		const boardContainer = this.add.container(400 + 520, 135);
-		
-		// 보드 프레임 배경 - 세로 늘림
-		const frameBg = this.add.graphics();
-		frameBg.fillStyle(0x000000, 0.5);
-		frameBg.fillRoundedRect(-580, -70, 1160, 950, 20);
-		
-		// 그리드 배경 (뒤쪽 레이어) - 세로 늘림
-		const gridOuterBg = this.add.graphics();
-		gridOuterBg.fillStyle(0xD9D9D9, 1);
-		gridOuterBg.fillRoundedRect(-570, -60, 1140, 930, 18);
-		gridOuterBg.lineStyle(4, 0xCCCCCC, 1);
-		gridOuterBg.strokeRoundedRect(-570, -60, 1140, 930, 18);
-		
-		// 그리드 내부 배경 - 세로 늘림
-		const gridInnerBg = this.add.graphics();
-		gridInnerBg.fillStyle(0xFFFFFF, 0.3);
-		gridInnerBg.fillRoundedRect(-560, -50, 1120, 910, 12);
-		
-		boardContainer.add([frameBg, gridOuterBg, gridInnerBg]);
-		
-		// 그리드 셀들 제거 (회색 배경 제거)
-		/*
+		// 그리드 셀 표시 (선택적)
 		const gridCells = this.add.graphics();
-		gridCells.fillStyle(0xCCCCCC, 0.8);
+		gridCells.fillStyle(0x34495E, 0.5);
 		
-		const cellSize = 94;
-		const cellGap = 42; // 간격 줄임 (46 -> 42)
-		const startX = -370;
-		const startY = 30; // 조금 아래로 (20 -> 30)
+		const cellSize = 85;
+		const cellGap = 10;
+		const totalCellWidth = cellSize + cellGap;
+		const gridWidth = 8 * cellSize + 7 * cellGap;
+		const gridHeight = 6 * cellSize + 5 * cellGap;
+		const startX = -gridWidth / 2;
+		const startY = -gridHeight / 2;
 		
 		for (let row = 0; row < 6; row++) {
 			for (let col = 0; col < 8; col++) {
-				const x = startX + col * (cellSize + cellGap);
-				const y = startY + row * (cellSize + cellGap);
-				gridCells.fillRoundedRect(x - cellSize/2, y - cellSize/2, cellSize, cellSize, 8);
+				const x = startX + col * totalCellWidth;
+				const y = startY + row * totalCellWidth;
+				gridCells.fillRoundedRect(x, y, cellSize, cellSize, 8);
 			}
 		}
 		
 		boardContainer.add(gridCells);
-		*/
 		
-		// 모든 컨테이너 추가 - optionButton 제거
-		this.add.existing(mainGameContainer);
-		mainGameContainer.add([topUIContainer, boardContainer]);
-		
-		// 그리드 컨테이너를 위치 조정
+		// 타일 그룹
 		this.tileGrp = this.add.group();
 		
-		// 그리드 시작 위치를 보드 컨테이너 기준으로 설정 (왼쪽으로 이동)
-		this.gridStartX = 840 + (-370); // 920 -> 840으로 변경, startX 참조
-		this.gridStartY = 135 + 30; // startY 참조
+		// 그리드 시작 위치 설정 (보드 중앙 기준)
+		this.gridStartX = 960 + startX + cellSize / 2;
+		this.gridStartY = 540 + startY + cellSize / 2;
 		
-		// 튜토리얼과 모달 설정
+		// 모달과 튜토리얼 창 설정
 		this.setupModalAndTutorial();
 		
 		// 마스크 설정 (프로그레스바용)
 		this.maskShape = this.add.graphics();
 		this.maskShape.visible = false;
 		this.updateMaskShape = (percentage) => {
-			// 프로그레스바 업데이트 로직
-			const newWidth = 162 * (percentage / 100);
+			const newWidth = 196 * (percentage / 100);
 			this.progressFill.clear();
-			this.progressFill.fillStyle(0xFFD202, 1);
-			this.progressFill.fillRoundedRect(-81, -13, newWidth, 26, 13);
+			this.progressFill.fillStyle(0xFFD700, 1);
+			this.progressFill.fillRoundedRect(-98, -13, newWidth, 26, 13);
 		};
 		
 		// 게임 시작
@@ -381,10 +325,9 @@ class Match3Game extends Phaser.Scene {
 		// 게임 시작 후 미션 아이템 업데이트
 		this.updateMissionItems();
 		
-		// 레벨 가이드 씬을 띄움 (게임 화면은 pause하지 않음)
+		// 레벨 가이드 씬을 띄움
 		this.time.delayedCall(100, () => {
 			this.scene.launch('LevelGuideScene', { level: this.levelData.level });
-			// pause 대신 입력만 비활성화
 			this.input.enabled = false;
 		});
 	}
@@ -466,21 +409,51 @@ class Match3Game extends Phaser.Scene {
 		tutorialBg.setInteractive();
 		this.tutorialWin.add(tutorialBg);
 		
-		// 튜토리얼 버튼 제거 (주석 처리)
-		/*
-		this.tutorial_button = this.add.graphics();
-		this.tutorial_button.name = "tutorial_button";
-		this.tutorial_button.fillStyle(0x4CAF50, 1);
-		this.tutorial_button.fillRoundedRect(100, 800, 200, 60, 20);
-		this.tutorial_button.setInteractive(new Phaser.Geom.Rectangle(100, 800, 200, 60), Phaser.Geom.Rectangle.Contains);
+		// 튜토리얼 내용 창
+		const tutorialWindow = this.add.graphics();
+		tutorialWindow.fillStyle(0xFFFFFF, 1);
+		tutorialWindow.fillRoundedRect(560, 340, 800, 400, 25);
+		tutorialWindow.lineStyle(3, 0x4A90E2, 1);
+		tutorialWindow.strokeRoundedRect(560, 340, 800, 400, 25);
+		this.tutorialWin.add(tutorialWindow);
 		
-		const tutorialBtnText = this.add.text(200, 830, '튜토리얼', {
+		// 튜토리얼 제목
+		const tutorialTitle = this.add.text(960, 400, '게임 방법', {
+			fontFamily: 'Arial Black',
+			fontSize: '36px',
+			color: '#333333'
+		});
+		tutorialTitle.setOrigin(0.5, 0.5);
+		this.tutorialWin.add(tutorialTitle);
+		
+		// 튜토리얼 내용
+		const tutorialContent = this.add.text(960, 540, 
+			'같은 동물 3개 이상을 연결하여\n없애주세요!\n\n미션 목표를 달성하면\n다음 레벨로 진행됩니다.', 
+			{
+				fontFamily: 'Arial',
+				fontSize: '28px',
+				color: '#555555',
+				align: 'center',
+				lineSpacing: 10
+			}
+		);
+		tutorialContent.setOrigin(0.5, 0.5);
+		this.tutorialWin.add(tutorialContent);
+		
+		// 튜토리얼 닫기 버튼
+		const tutorialCloseBtn = this.add.graphics();
+		tutorialCloseBtn.fillStyle(0x4A90E2, 1);
+		tutorialCloseBtn.fillRoundedRect(860, 660, 200, 60, 20);
+		tutorialCloseBtn.setInteractive(new Phaser.Geom.Rectangle(860, 660, 200, 60), Phaser.Geom.Rectangle.Contains);
+		this.tutorialWin.add(tutorialCloseBtn);
+		
+		const tutorialCloseBtnText = this.add.text(960, 690, '닫기', {
 			fontFamily: 'Arial',
-			fontSize: '24px',
+			fontSize: '28px',
 			color: '#FFFFFF'
 		});
-		tutorialBtnText.setOrigin(0.5, 0.5);
-		*/
+		tutorialCloseBtnText.setOrigin(0.5, 0.5);
+		this.tutorialWin.add(tutorialCloseBtnText);
 		
 		// 이벤트 핸들러 설정
 		this.modalCloseBtn.on("pointerdown", () => {
@@ -496,47 +469,27 @@ class Match3Game extends Phaser.Scene {
 			}
 		});
 		
-		this.tutorial_button.on("pointerdown", () => {
-			if(this.modalWin.visible) return;
-			if(this.tutorialWin.visible){
-				this.tutorialWin.visible = false;
-				this.input.setGlobalTopOnly(false);
-				// 타일 드래그 가능하게 복원
-				if(this.tileGrp) {
-					this.tileGrp.getAll().forEach(tile => {
-						tile.setInteractive({ draggable: true });
-					});
-				}
-				return;
-			}
-			this.tutorialWin.visible = true;
-			this.input.setGlobalTopOnly(true);
-			// 타일 드래그 불가능하게 설정
+		tutorialCloseBtn.on("pointerdown", () => {
+			this.tutorialWin.visible = false;
+			this.input.setGlobalTopOnly(false);
+			// 타일 드래그 가능하게 복원
 			if(this.tileGrp) {
 				this.tileGrp.getAll().forEach(tile => {
-					tile.disableInteractive();
+					tile.setInteractive({ draggable: true });
 				});
 			}
-			this.tutorialWin.alpha = 0;
-			this.tweens.add({
-				targets: this.tutorialWin,
-				alpha: 1,
-				duration: 500,
-				ease: 'Linear'
-			});
 		});
 		
-		this.tutorialWin.on("pointerdown", () => {
-			if(this.tutorialWin.visible){
+		this.tutorialWin.on("pointerdown", (pointer, localX, localY, event) => {
+			// 튜토리얼 창 외부 클릭시 닫기
+			if (pointer.x < 560 || pointer.x > 1360 || pointer.y < 340 || pointer.y > 740) {
 				this.tutorialWin.visible = false;
 				this.input.setGlobalTopOnly(false);
-				// 타일 드래그 가능하게 복원
 				if(this.tileGrp) {
 					this.tileGrp.getAll().forEach(tile => {
 						tile.setInteractive({ draggable: true });
 					});
 				}
-				return;
 			}
 		});
 		
@@ -544,7 +497,7 @@ class Match3Game extends Phaser.Scene {
 		if(window.setPointerCursor) {
 			window.setPointerCursor(this.modalCloseBtn);
 			window.setPointerCursor(this.modalOkBtn);
-			window.setPointerCursor(this.tutorial_button);
+			window.setPointerCursor(tutorialCloseBtn);
 		}
 	}
 	
