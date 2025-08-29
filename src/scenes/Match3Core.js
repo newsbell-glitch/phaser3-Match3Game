@@ -14,14 +14,14 @@ class Match3Core {
         this.tilesToPlace = this.gridSize * this.gridSize;
         this.selectedTile = null;
         this.swapping = false;
-        this.startX = 630;
+        this.startX = 550; // 왼쪽으로 이동 (630 -> 550)
         this.startY = 155;
         this.score = 0;
         this.tot_aimCnt = 0;
         this.scoreText = null;
         this.tileGrp = scene.tileGrp;
         this.game_on = false;
-        this.tileGap = 46;
+        this.tileGap = 42; // 간격 줄임 (46 -> 42)
     }
 
     getConfig() {

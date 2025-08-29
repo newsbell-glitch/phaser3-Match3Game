@@ -43,40 +43,40 @@ export default class LevelGuideScene extends Phaser.Scene {
         // 메인 컨테이너
         const mainContainer = this.add.container(960, 540);
 
-        // 1. 도움말 배경 이미지 사용 (game_help_bg.png)
+        // 1. 도움말 배경 이미지 사용 (game_help_bg.png) - 크기를 더 키움
         let board;
         if (this.textures.exists('game_help_bg')) {
             board = this.add.image(0, 0, 'game_help_bg');
-            board.setDisplaySize(600, 700);
+            board.setDisplaySize(700, 800); // 크기 증가 (600x700 -> 700x800)
         } else if (this.textures.exists('level_guide_board')) {
             board = this.add.image(0, 0, 'level_guide_board');
-            board.setScale(0.495);
+            board.setScale(0.6); // 스케일 증가
         } else {
-            board = this.add.rectangle(0, 0, 600, 700, 0xf0f0f0);
+            board = this.add.rectangle(0, 0, 700, 800, 0xf0f0f0);
             board.setStrokeStyle(4, 0x666666);
         }
         mainContainer.add(board);
 
-        // 2. 레벨 배너 (판 위쪽에 겹치게) - 위로 더 올림
+        // 2. 레벨 배너 (판 위쪽에 겹치게) - 위치 조정
         if (this.textures.exists('level_banner')) {
-            const levelBanner = this.add.image(0, -320, 'level_banner');
-            levelBanner.setScale(0.35);
+            const levelBanner = this.add.image(0, -350, 'level_banner');
+            levelBanner.setScale(0.45); // 스케일 증가
             mainContainer.add(levelBanner);
         }
 
-        // 레벨 텍스트 (배너와 정확히 맞춤) - 위로 더 올림
-        const levelText = this.add.text(0, -320, `LEVEL ${this.currentLevel.toString().padStart(2, '0')}`, {
-            fontSize: '42px',
+        // 레벨 텍스트 (배너와 정확히 맞춤) - 위치 조정
+        const levelText = this.add.text(0, -350, `LEVEL ${this.currentLevel.toString().padStart(2, '0')}`, {
+            fontSize: '48px', // 폰트 크기 증가
             fontFamily: 'Arial Black',
             color: '#FEF4BF',
             stroke: '#914A28',
-            strokeThickness: 2
+            strokeThickness: 3
         });
         levelText.setOrigin(0.5);
         mainContainer.add(levelText);
 
         // 3. X 버튼 (투명 히트 영역) - 우상단, 파란 X 버튼 영역에 맞춤
-        const xButton = this.add.circle(275, -280, 25, 0x000000, 0);
+        const xButton = this.add.circle(320, -310, 35, 0x000000, 0); // 크기와 위치 조정
         xButton.setInteractive({ useHandCursor: true });
         
         xButton.on('pointerup', () => {
@@ -85,23 +85,23 @@ export default class LevelGuideScene extends Phaser.Scene {
         
         mainContainer.add(xButton);
 
-        // 4. 미션 아이템들 (아래로 이동)
-        const missionY = -180; // 더 아래로 이동
+        // 4. 미션 아이템들 - 위치 조정
+        const missionY = -150; // 위치 조정
         const items = this.currentLevel === 1 ? 
             [
-                { x: -80, image: 'bear_purple_figma', count: 6 },
-                { x: 80, image: 'cat', count: 9 }
+                { x: -100, image: 'bear_purple_figma', count: 6 },
+                { x: 100, image: 'cat', count: 9 }
             ] :
             [
-                { x: -120, image: 'bear_purple_figma', count: 6 },
+                { x: -150, image: 'bear_purple_figma', count: 6 },
                 { x: 0, image: 'quokka_yellow_figma', count: 6 },
-                { x: 120, image: 'dog_cyan_figma', count: 6 }
+                { x: 150, image: 'dog_cyan_figma', count: 6 }
             ];
 
         items.forEach((item) => {
             // 동물 그림자
-            const shadowImg = this.add.image(item.x + 3, missionY + 3, item.image);
-            shadowImg.setDisplaySize(90, 92);
+            const shadowImg = this.add.image(item.x + 4, missionY + 4, item.image);
+            shadowImg.setDisplaySize(110, 112); // 크기 증가
             shadowImg.setTint(0x000000);
             shadowImg.setAlpha(0.3);
             mainContainer.add(shadowImg);
@@ -109,15 +109,15 @@ export default class LevelGuideScene extends Phaser.Scene {
             // 동물 이미지
             if (this.textures.exists(item.image)) {
                 const animal = this.add.image(item.x, missionY, item.image);
-                animal.setDisplaySize(90, 92);
+                animal.setDisplaySize(110, 112); // 크기 증가
                 mainContainer.add(animal);
             } else {
-                const tempRect = this.add.rectangle(item.x, missionY, 90, 92, 0xcccccc);
+                const tempRect = this.add.rectangle(item.x, missionY, 110, 112, 0xcccccc);
                 tempRect.setStrokeStyle(2, 0x666666);
                 mainContainer.add(tempRect);
                 
                 const tempText = this.add.text(item.x, missionY, item.image, {
-                    fontSize: '10px',
+                    fontSize: '12px',
                     color: '#333333'
                 });
                 tempText.setOrigin(0.5);
@@ -125,20 +125,20 @@ export default class LevelGuideScene extends Phaser.Scene {
             }
             
             // 숫자 (오른쪽 하단)
-            const numberX = item.x + 35;
-            const numberY = missionY + 35;
+            const numberX = item.x + 45;
+            const numberY = missionY + 45;
             
             // 숫자 배경 (흰색 원)
             const numberBg = this.add.graphics();
             numberBg.fillStyle(0xFFFFFF, 1);
-            numberBg.fillCircle(numberX, numberY, 18);
-            numberBg.lineStyle(2, 0x666666, 1);
-            numberBg.strokeCircle(numberX, numberY, 18);
+            numberBg.fillCircle(numberX, numberY, 22); // 크기 증가
+            numberBg.lineStyle(3, 0x666666, 1);
+            numberBg.strokeCircle(numberX, numberY, 22);
             mainContainer.add(numberBg);
             
             // 숫자
             const number = this.add.text(numberX, numberY, item.count.toString(), {
-                fontSize: '28px',
+                fontSize: '32px', // 폰트 크기 증가
                 fontFamily: 'Arial Black',
                 color: '#333333'
             });
@@ -146,28 +146,28 @@ export default class LevelGuideScene extends Phaser.Scene {
             mainContainer.add(number);
         });
 
-        // 5. 설명 텍스트 (더 아래로 이동)
-        const descText = this.add.text(0, -40, '목표 타일의 갯수만큼\n젤리를 제거하기', {
-            fontSize: '32px',
+        // 5. 설명 텍스트 - 위치와 크기 조정
+        const descText = this.add.text(0, 20, '목표 타일의 갯수만큼\n젤리를 제거하기', {
+            fontSize: '38px', // 폰트 크기 증가
             fontFamily: 'Arial',
             color: '#528AAA',
             align: 'center',
-            lineSpacing: 8
+            lineSpacing: 10
         });
         descText.setOrigin(0.5);
         mainContainer.add(descText);
 
-        // 6. 확인 완료 버튼 (더 많이 아래로 이동, 세로 키움)
+        // 6. 확인 완료 버튼 - 크기와 위치 조정
         let confirmButton;
         if (this.textures.exists('confirm_button')) {
-            confirmButton = this.add.image(0, 100, 'confirm_button');
-            confirmButton.setDisplaySize(200, 70); // 세로를 키움
+            confirmButton = this.add.image(0, 150, 'confirm_button');
+            confirmButton.setDisplaySize(250, 80); // 크기 증가
         } else {
-            confirmButton = this.add.rectangle(0, 100, 200, 70, 0x4CAF50);
-            confirmButton.setStrokeStyle(3, 0x2E7D32);
+            confirmButton = this.add.rectangle(0, 150, 250, 80, 0x4CAF50);
+            confirmButton.setStrokeStyle(4, 0x2E7D32);
             
-            const buttonText = this.add.text(0, 100, 'CONFIRM', {
-                fontSize: '24px',
+            const buttonText = this.add.text(0, 150, 'CONFIRM', {
+                fontSize: '28px',
                 fontFamily: 'Arial Black',
                 color: '#FFFFFF'
             });
@@ -180,11 +180,11 @@ export default class LevelGuideScene extends Phaser.Scene {
         
         // 버튼 이벤트
         confirmButton.on('pointerdown', () => {
-            confirmButton.y += 3;
+            confirmButton.y += 4;
         });
         
         confirmButton.on('pointerup', () => {
-            confirmButton.y -= 3;
+            confirmButton.y -= 4;
             this.closeGuideAndStartGame();
         });
 

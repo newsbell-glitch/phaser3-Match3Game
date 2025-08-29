@@ -255,15 +255,47 @@ class Match3Game extends Phaser.Scene {
 		// 하단 버튼들 (위치 조정 - 올림)
 		const bottomButtons = this.add.container(85, 820);
 		
-		// 파란 아이콘 버튼
+		// 파란 아이콘 버튼 - 튜토리얼 기능
 		const blueIconBtn = this.add.image(0, 0, 'blue_icon_img');
 		blueIconBtn.setDisplaySize(70, 77);
-		blueIconBtn.setInteractive();
+		blueIconBtn.setInteractive({ useHandCursor: true });
 		
-		// 물음표 버튼 - 파란 버튼 안으로 이동
+		// 물음표 버튼 - 파란 버튼 안으로 이동, 튜토리얼 기능 추가
 		const questionBtn = this.add.image(0, 0, 'question_img');
 		questionBtn.setDisplaySize(28, 46);
-		questionBtn.setInteractive();
+		questionBtn.setInteractive({ useHandCursor: true });
+		
+		// 튜토리얼 기능 추가
+		questionBtn.on('pointerup', () => {
+			if (this.tutorialWin) {
+				if (this.tutorialWin.visible) {
+					this.tutorialWin.visible = false;
+					this.input.setGlobalTopOnly(false);
+					// 타일 드래그 가능하게 복원
+					if (this.tileGrp) {
+						this.tileGrp.getAll().forEach(tile => {
+							tile.setInteractive({ draggable: true });
+						});
+					}
+				} else {
+					this.tutorialWin.visible = true;
+					this.input.setGlobalTopOnly(true);
+					// 타일 드래그 불가능하게 설정
+					if (this.tileGrp) {
+						this.tileGrp.getAll().forEach(tile => {
+							tile.disableInteractive();
+						});
+					}
+					this.tutorialWin.alpha = 0;
+					this.tweens.add({
+						targets: this.tutorialWin,
+						alpha: 1,
+						duration: 500,
+						ease: 'Linear'
+					});
+				}
+			}
+		});
 		
 		bottomButtons.add([blueIconBtn, questionBtn]);
 		topUIContainer.add(bottomButtons);
@@ -297,7 +329,8 @@ class Match3Game extends Phaser.Scene {
 		
 		boardContainer.add([frameBg, gridOuterBg, gridInnerBg]);
 		
-		// 그리드 셀들 (8x6 그리드) - 위치 조정
+		// 그리드 셀들 제거 (회색 배경 제거)
+		/*
 		const gridCells = this.add.graphics();
 		gridCells.fillStyle(0xCCCCCC, 0.8);
 		
@@ -315,6 +348,7 @@ class Match3Game extends Phaser.Scene {
 		}
 		
 		boardContainer.add(gridCells);
+		*/
 		
 		// 모든 컨테이너 추가 - optionButton 제거
 		this.add.existing(mainGameContainer);
@@ -324,8 +358,8 @@ class Match3Game extends Phaser.Scene {
 		this.tileGrp = this.add.group();
 		
 		// 그리드 시작 위치를 보드 컨테이너 기준으로 설정 (왼쪽으로 이동)
-		this.gridStartX = 920 + startX; // 1000 -> 920으로 변경
-		this.gridStartY = 135 + startY;
+		this.gridStartX = 840 + (-370); // 920 -> 840으로 변경, startX 참조
+		this.gridStartY = 135 + 30; // startY 참조
 		
 		// 튜토리얼과 모달 설정
 		this.setupModalAndTutorial();
@@ -432,7 +466,8 @@ class Match3Game extends Phaser.Scene {
 		tutorialBg.setInteractive();
 		this.tutorialWin.add(tutorialBg);
 		
-		// 튜토리얼 버튼 (미션 패널 하단)
+		// 튜토리얼 버튼 제거 (주석 처리)
+		/*
 		this.tutorial_button = this.add.graphics();
 		this.tutorial_button.name = "tutorial_button";
 		this.tutorial_button.fillStyle(0x4CAF50, 1);
@@ -445,6 +480,7 @@ class Match3Game extends Phaser.Scene {
 			color: '#FFFFFF'
 		});
 		tutorialBtnText.setOrigin(0.5, 0.5);
+		*/
 		
 		// 이벤트 핸들러 설정
 		this.modalCloseBtn.on("pointerdown", () => {
